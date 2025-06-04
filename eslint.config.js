@@ -1,33 +1,22 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-
-export default [
-  { ignores: ['dist'] },
-  {
-    files: ['**/*.{js,jsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}"
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        orbitron: ["'Orbitron'", "monospace"],
+        sans: ["Inter", "ui-sans-serif", "system-ui"] // ejemplo de fuente neutra
       },
-    },
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
-    rules: {
-      ...js.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-    },
+      colors: {
+        "siat-blue": "#00BFFF",   // azul claro para botones
+        "siat-light": "#E5F6FF",  // fondo muy claro
+        "siat-gray": "#F8FAFC",   // gris muy claro
+        "siat-darkgray": "#374151" // para textos secundarios
+      }
+    }
   },
-]
+  plugins: []
+};

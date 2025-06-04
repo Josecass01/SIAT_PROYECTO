@@ -1,16 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+// import PlaceDetail from "./pages/PlaceDetail"; // para la vista individual más adelante
+// import Login from "./pages/Login";
+// import Register from "./pages/Register";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <h1 className='text-red-500'>ronald es hibrido</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/*
+          Más rutas:
+          <Route path="/places" element={<Places />} />
+          <Route path="/attraction/:id" element={<PlaceDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        */}
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App

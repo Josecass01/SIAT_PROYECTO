@@ -3,20 +3,15 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Carousel from "../components/Carousel";
 import AttractionsGrid from "../components/AttractionsGrid";
-import axios from "axios"; // Por si quieres traer datos de tu API
+// Si tuvieras un backend REST, descomenta estas líneas y ajusta la URL:
+// import axios from "axios";
 
 export default function Home() {
-  // Estados ficticios para simular datos; en producción, los traerías de tu BD/API
   const [slides, setSlides] = useState([]);
   const [attractions, setAttractions] = useState([]);
 
   useEffect(() => {
-    // Aquí podrías hacer fetch a tu backend para los slides y los atractivos.
-    // Ejemplo con axios:
-    // axios.get("/api/slides").then(res => setSlides(res.data));
-    // axios.get("/api/attractions").then(res => setAttractions(res.data));
-
-    // Por ahora, simulación rápida:
+    // SIMULACIÓN de datos (en producción, harías axios.get("/api/slides") etc.)
     setSlides([
       {
         id: 1,
@@ -58,18 +53,17 @@ export default function Home() {
         description:
           "La histórica ciudad amurallada de Cartagena es Patrimonio de la Humanidad por la UNESCO, repleta de calles coloridas.",
         imageUrl:
-          "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?auto=format&fit=crop&w=500&q=80",
+          "https://images.unsplash.com/photo-1581833971358-9f540ce91ef3?auto=format&fit=crop&w=500&q=80",
       },
       {
         id: 3,
         name: "Getsemaní",
         category: "Cultural",
         description:
-          "Una vez barrio obrero, Getsemaní se ha convertido en un vibrante centro cultural con arte urbano y restaurantes.",
+          "Una vez barrio obrero, Getsemaní se ha convertido en un vibrante centro cultural con arte urbano y restaurantes locales.",
         imageUrl:
           "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500&q=80",
       },
-      // Puedes agregar más objetos...
     ]);
   }, []);
 
@@ -77,7 +71,7 @@ export default function Home() {
     <div className="min-h-screen bg-siat-gray">
       <Navbar />
 
-      {/* Sección principal */}
+      {/* TÍTULO PRINCIPAL */}
       <header className="bg-white">
         <div className="max-w-4xl mx-auto text-center py-16 px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">
@@ -87,16 +81,15 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Carrusel */}
+      {/* CARRUSEL */}
       <section className="py-8">
         <Carousel slides={slides} />
       </section>
 
-      {/* Grid de Atractivos Destacados */}
+      {/* GRID DE ATRACTIVOS DESTACADOS */}
       <section className="py-8">
         <AttractionsGrid attractions={attractions} />
       </section>
     </div>
   );
 }
-

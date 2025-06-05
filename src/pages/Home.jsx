@@ -1,17 +1,16 @@
 // src/pages/Home.jsx
+
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Carousel from "../components/Carousel";
-import AttractionsGrid from "../components/AttractionsGrid";
-// Si tuvieras un backend REST, descomenta estas líneas y ajusta la URL:
-// import axios from "axios";
 
 export default function Home() {
   const [slides, setSlides] = useState([]);
   const [attractions, setAttractions] = useState([]);
 
   useEffect(() => {
-    // SIMULACIÓN de datos (en producción, harías axios.get("/api/slides") etc.)
+    // Simulación de datos
     setSlides([
       {
         id: 1,
@@ -38,7 +37,7 @@ export default function Home() {
 
     setAttractions([
       {
-        id: 1,
+        id: "1",
         name: "Castillo San Felipe de Barajas",
         category: "Histórico",
         description:
@@ -47,7 +46,7 @@ export default function Home() {
           "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80",
       },
       {
-        id: 2,
+        id: "2",
         name: "Walled City of Cartagena",
         category: "UNESCO Site",
         description:
@@ -56,7 +55,7 @@ export default function Home() {
           "https://images.unsplash.com/photo-1581833971358-9f540ce91ef3?auto=format&fit=crop&w=500&q=80",
       },
       {
-        id: 3,
+        id: "3",
         name: "Getsemaní",
         category: "Cultural",
         description:
@@ -68,27 +67,46 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-siat-gray">
+    <div className="min-h-screen bg-blue-50">
       <Navbar />
 
-      {/* TÍTULO PRINCIPAL */}
-      <header className="bg-white">
-        <div className="max-w-4xl mx-auto text-center py-16 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">
-            Explore the most iconic and breathtaking locations that Cartagena has to
-            offer
-          </h1>
-        </div>
-      </header>
-
-      {/* CARRUSEL */}
+      {/* Carrusel */}
       <section className="py-8">
-        <Carousel slides={slides} />
+        <div className="max-w-5xl mx-auto px-4">
+          <Carousel slides={slides} />
+        </div>
       </section>
 
-      {/* GRID DE ATRACTIVOS DESTACADOS */}
+      {/* Atractivos Destacados */}
       <section className="py-8">
-        <AttractionsGrid attractions={attractions} />
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+            Atractivos Destacados
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {attractions.map((attr) => (
+              <Link
+                to={`/place/${attr.id}`}
+                key={attr.id}
+                className="block bg-white rounded-lg shadow hover:shadow-lg transition"
+              >
+                <img
+                  src={attr.imageUrl}
+                  alt={attr.name}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-medium text-gray-800">
+                    {attr.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {attr.category}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -4,14 +4,18 @@ import {
   getAllAttractions,
   createAttraction,
   getAttractionById,
+  deleteAttraction,
+  updateAttraction, // <-- 1. Importar
 } from '../controllers/attractionController.js';
 
 const router = express.Router();
 
-// La ruta raíz (/) maneja GET para obtener todo y POST para crear.
 router.route('/').get(getAllAttractions).post(createAttraction);
 
-// La ruta con id (/:id) maneja GET para obtener uno solo.
-router.route('/:id').get(getAttractionById);
+router
+  .route('/:id')
+  .get(getAttractionById)
+  .delete(deleteAttraction)
+  .put(updateAttraction); // <-- 2. Añadir el método PUT
 
 export default router;

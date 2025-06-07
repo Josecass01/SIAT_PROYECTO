@@ -1,7 +1,7 @@
 // backend/src/controllers/attractionController.js
 import Attraction from '../models/Attraction.js';
 
-// ... (la función getAllAttractions que ya teníamos sigue aquí)
+// --- FUNCIÓN PARA OBTENER TODAS ---
 const getAllAttractions = async (req, res) => {
   try {
     const attractions = await Attraction.find({});
@@ -11,32 +11,38 @@ const getAllAttractions = async (req, res) => {
   }
 };
 
-// @desc    Crear una nueva atracción
-// @route   POST /api/attractions
-// @access  Private (eventualmente)
+// --- FUNCIÓN PARA CREAR UNA ---
 const createAttraction = async (req, res) => {
   try {
-    // Obtenemos los datos del cuerpo de la petición
     const { nombre, descripcion, categoria, coordenadas, galeria } = req.body;
-
-    // Creamos una nueva instancia del modelo
     const newAttraction = new Attraction({
       nombre,
       descripcion,
       categoria,
-      coordenadas, // esperamos un objeto { lat, lng }
-      galeria, // esperamos un array de strings (URLs)
+      coordenadas,
+      galeria,
     });
-
-    // Guardamos en la base de datos
     const createdAttraction = await newAttraction.save();
-
-    // Respondemos con la nueva atracción creada y un estado 201 (Created)
     res.status(201).json(createdAttraction);
   } catch (error) {
     res.status(400).json({ message: 'Datos inválidos', error: error.message });
   }
 };
 
-// Exportamos ambas funciones
-export { getAllAttractions, createAttraction };
+// --- FUNCIÓN PARA OBTENER POR ID ---
+const getAttractionById = async (req, res) => {
+  try {
+    const attraction = await Attraction.findById(req.params.id);
+    if (attraction) {
+      res.json(attraction);
+    } else {
+      res.status(404).json({ message: 'Atracción no encontrada' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
+// --- LA LÍNEA MÁS IMPORTANTE ---
+// Asegúrate de que estamos exportando las TRES funciones.
+export { getAllAttractions, createAttraction, getAttractionById };

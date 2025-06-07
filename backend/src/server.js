@@ -1,28 +1,31 @@
 // backend/src/server.js
 
-import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
-
-// Cargar variables de entorno
 dotenv.config();
 
-// Inicializar la aplicación de Express
+import express from 'express';
+import cors from 'cors';
+import connectDB from './db.js';
+import attractionRoutes from './routes/attractionRoutes.js'; // <-- 1. IMPORTAR RUTAS
+
+connectDB();
 const app = express();
 
-// Middlewares
-app.use(cors()); // Permite peticiones de otros orígenes (nuestro frontend)
-app.use(express.json()); // Permite al servidor entender y procesar JSON
+app.use(cors());
+app.use(express.json());
 
-// Ruta de prueba
+// Ruta de prueba (la podemos dejar o quitar)
 app.get('/', (req, res) => {
   res.send('¡Hola! El backend de SIAT Cartagena está funcionando.');
 });
 
-// Definir el puerto
-const PORT = process.env.PORT || 4000;
+// <-- 2. USAR LAS RUTAS -->
+// Le decimos a Express que cualquier ruta que empiece por '/api/attractions'
+// debe ser manejada por nuestro 'attractionRoutes'.
+app.use('/api/attractions', attractionRoutes);
 
-// Iniciar el servidor
+
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

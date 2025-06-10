@@ -5,17 +5,23 @@ import {
   createAttraction,
   getAttractionById,
   deleteAttraction,
-  updateAttraction, // <-- 1. Importar
+  updateAttraction,
 } from '../controllers/attractionController.js';
+import { protect } from '../middleware/authMiddleware.js'; // Importamos el guardia
 
 const router = express.Router();
 
-router.route('/').get(getAllAttractions).post(createAttraction);
+// --- Rutas para la colección (/api/attractions) ---
+router
+  .route('/')
+  .get(getAllAttractions) // GET es público, cualquiera puede ver la lista.
+  .post(protect, createAttraction); // POST para crear está protegido.
 
+// --- Rutas para un item específico (/api/attractions/:id) ---
 router
   .route('/:id')
-  .get(getAttractionById)
-  .delete(deleteAttraction)
-  .put(updateAttraction); // <-- 2. Añadir el método PUT
+  .get(getAttractionById) // GET es público, cualquiera puede ver el detalle.
+  .put(protect, updateAttraction) // PUT para actualizar está protegido.
+  .delete(protect, deleteAttraction); // DELETE para eliminar está protegido.
 
 export default router;

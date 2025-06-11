@@ -1,27 +1,24 @@
 // backend/src/routes/attractionRoutes.js
 import express from 'express';
 import {
-  getAllAttractions,
-  createAttraction,
-  getAttractionById,
-  deleteAttraction,
-  updateAttraction,
+  getAllAttractions, createAttraction, getAttractionById,
+  deleteAttraction, updateAttraction, createAttractionReview,updateAttractionReview
 } from '../controllers/attractionController.js';
-import { protect } from '../middleware/authMiddleware.js'; // Importamos el guardia
+import { protect, isEntity } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// --- Rutas para la colección (/api/attractions) ---
-router
-  .route('/')
-  .get(getAllAttractions) // GET es público, cualquiera puede ver la lista.
-  .post(protect, createAttraction); // POST para crear está protegido.
+router.route('/')
+  .get(getAllAttractions)
+  .post(protect, isEntity, createAttraction);
 
-// --- Rutas para un item específico (/api/attractions/:id) ---
-router
-  .route('/:id')
-  .get(getAttractionById) // GET es público, cualquiera puede ver el detalle.
-  .put(protect, updateAttraction) // PUT para actualizar está protegido.
-  .delete(protect, deleteAttraction); // DELETE para eliminar está protegido.
+router.route('/:id/reviews')
+  .post(protect, createAttractionReview)
+  .put(protect, updateAttractionReview);
+
+router.route('/:id')
+  .get(getAttractionById)
+  .put(protect, isEntity, updateAttraction)
+  .delete(protect, isEntity, deleteAttraction);
 
 export default router;

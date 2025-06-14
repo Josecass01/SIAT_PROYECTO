@@ -26,6 +26,11 @@ export default function Navbar() {
           <div className="flex space-x-4 items-center">
             <Link to="/" className="text-gray-700 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Home</Link>
             <Link to="/places" className="text-gray-700 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Places</Link>
+            {userInfo && userInfo.isSuperAdmin && (
+                         <Link to="/admin" className="text-green-600 hover:text-green-800 px-3 py-2 rounded-md text-sm font-bold">
+                   Admin Panel
+                 </Link>
+                            )}
 
             {userInfo ? (
               <>

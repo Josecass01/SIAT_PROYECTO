@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
         res.json({
-            _id: user._id, name: user.name, email: user.email, isEntity: user.isEntity, token: generateToken(user._id),
+            _id: user._id, name: user.name, email: user.email, isEntity: user.isEntity,isSuperAdmin: user.isSuperAdmin, token: generateToken(user._id),
         });
     } else {
         res.status(401).json({ message: 'Email o contraseña inválidos' });

@@ -8,6 +8,7 @@ import cors from 'cors';
 import connectDB from './db.js';
 import attractionRoutes from './routes/attractionRoutes.js'; // <-- 1. IMPORTAR RUTAS
 import userRoutes from './routes/userRoutes.js'; // <-- 1. Importar rutas de usuario
+import codeRoutes from './routes/codeRoutes.js';
 
 connectDB();
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 // debe ser manejada por nuestro 'attractionRoutes'.
 app.use('/api/attractions', attractionRoutes);
 app.use('/api/users', userRoutes); // <-- 2. Usar las rutas de usuario
+app.use('/api/codes', codeRoutes);
 
 
 const PORT = process.env.PORT || 4000;

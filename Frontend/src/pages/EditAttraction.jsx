@@ -1,99 +1,61 @@
 // Frontend/src/pages/EditAttraction.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import api from '../api/axiosConfig.js'; // Usamos la nueva config
+import api from '../api/axiosConfig';
 import Navbar from '../components/Navbar';
+import AttractionForm from '../components/AttractionForm';
 
 export default function EditAttraction() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({ nombre: '', descripcion: '', categoria: '' });
-  const [loading, setLoading] = useState(true);
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [initialData, setInitialData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchAttraction = async () => {
-      try {
-        const { data } = await api.get(`/attractions/${id}`);
-        setFormData({
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          categoria: data.categoria,
-        });
-        setLoading(false);
-      } catch (error) {
-        alert('No se pudo cargar la información para editar.');
-      }
+    useEffect(() => {
+        const fetchAttraction = async () => {
+            try {
+                const { data } = await api.get(`/attractions/${id}`);
+                setInitialData(data);
+                setLoading(false);
+            } catch (err) {
+                setError('No se pudo cargar la atracción para editar.');
+                setLoading(false);
+            }
+        };
+        fetchAttraction();
+    }, [id]);
+
+    const handleSubmit = async (formData) => {
+        setLoading(true);
+        setError(null);
+        try {
+            await api.put(`/attractions/${id}`, formData);
+            setLoading(false);
+            alert('¡Atracción actualizada exitosamente!');
+            navigate(`/place/${id}`);
+        } catch (err) {
+            setLoading(false);
+            setError('No se pudo actualizar la atracción.');
+            console.error(err);
+        }
     };
-    fetchAttraction();
-  }, [id]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    if (loading) return <div className="min-h-screen bg-gray-100"><Navbar /><p className="text-center mt-10">Cargando datos para editar...</p></div>;
+    if (error) return <div className="min-h-screen bg-gray-100"><Navbar /><p className="text-center mt-10 text-red-500">{error}</p></div>;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await api.put(`/attractions/${id}`, formData);
-      navigate(`/place/${id}`);
-    } catch (error) {
-      alert('No se pudieron guardar los cambios.');
-    }
-  };
-
-  if (loading) {
-    return <div>Cargando formulario...</div>;
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar />
-      <div className="max-w-2xl mx-auto p-8 mt-10 bg-white rounded-lg shadow">
-        <h1 className="text-2xl font-bold mb-6">Editar Atracción</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              id="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripción</label>
-            <textarea
-              name="descripcion"
-              id="descripcion"
-              rows="4"
-              value={formData.descripcion}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            ></textarea>
-          </div>
-          <div className="mb-6">
-            <label htmlFor="categoria" className="block text-sm font-medium text-gray-700">Categoría</label>
-            <input
-              type="text"
-              name="categoria"
-              id="categoria"
-              value={formData.categoria}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </div>
-          <div className="flex justify-end gap-4">
-            <button type="button" onClick={() => navigate(`/place/${id}`)} className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">
-              Cancelar
-            </button>
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-              Guardar Cambios
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+    return (
+        <div className="min-h-screen bg-gray-100">
+            <Navbar />
+            <div className="max-w-4xl mx-auto p-8 mt-10 bg-white rounded-lg shadow">
+                <h1 className="text-2xl font-bold mb-6">Editando: {initialData?.nombre}</h1>
+                <AttractionForm 
+                    initialData={initialData}
+                    onSubmit={handleSubmit} 
+                    loading={loading}
+                    isEdit={true} 
+                />
+            </div>
+        </div>
+    );
 }

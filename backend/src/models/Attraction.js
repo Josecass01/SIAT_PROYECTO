@@ -1,56 +1,55 @@
 // backend/src/models/Attraction.js
 import mongoose from 'mongoose';
 
-// --- NUEVO: Esquema para las Reseñas ---
-// Una reseña es un sub-documento que vivirá dentro de cada atracción.
+// ... (reviewSchema no cambia)
 const reviewSchema = mongoose.Schema(
   {
-    name: { type: String, required: true }, // Nombre del usuario que hace la reseña
-    rating: { type: Number, required: true }, // Calificación de 1 a 5
-    comment: { type: String, required: true }, // El texto del comentario
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User', // Referencia al modelo de Usuario
-    },
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const attractionSchema = new mongoose.Schema({
   nombre: { type: String, required: true, trim: true },
   descripcion: { type: String, required: true },
-  categoria: { type: String, required: true },
-  // --- NUEVOS CAMPOS PARA CALIFICACIONES Y RESEÑAS ---
-  reviews: [reviewSchema], // Un array que contendrá todas las reseñas de esta atracción
-  rating: {
-    type: Number,
+  
+  // --- CAMPO MEJORADO: CATEGORIA CON OPCIONES FIJAS ---
+  categoria: { 
+    type: String, 
     required: true,
-    default: 0, // Calificación promedio
+    enum: ["Histórico", "Cultural", "Natural", "UNESCO Site", "Religioso"]
   },
-  numReviews: {
-    type: Number,
-    required: true,
-    default: 0, // Número total de reseñas
-  },
-  // --- El resto de los campos que ya teníamos ---
+  
+  // ... (reviews, rating, numReviews no cambian)
+  reviews: [reviewSchema],
+  rating: { type: Number, required: true, default: 0 },
+  numReviews: { type: Number, required: true, default: 0 },
+  
   horario: { type: String },
-  ubicacion_texto: { type: String },
+  ubicacion_texto: { type: String }, // <-- Este es el campo para la dirección
   contacto: { type: String },
   galeria: [{ type: String }],
+
+  // --- NUEVA ESTRUCTURA PARA LA CALIFICACIÓN DE LA ENTIDAD ---
   calificacion_entidad: {
-    estadoConservacion: Number,
-    constitucionDelBien: Number,
-    representatividadGeneral: Number,
+    estadoConservacion: { type: Number, min: 0, max: 21, default: 0 },
+    constitucionDelBien: { type: Number, min: 0, max: 21, default: 0 },
+    representatividadGeneral: { type: Number, min: 0, max: 28, default: 0 },
   },
-  significado_entidad: { type: String },
+  
+  // --- CAMPO MEJORADO: SIGNIFICADO CON OPCIONES FIJAS ---
+  significado_entidad: { 
+    type: String,
+    enum: ["Local", "Regional", "Nacional", "Internacional"]
+  },
+
   coordenadas: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
-  // Este campo no lo usamos activamente pero lo podemos dejar
   user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

@@ -7,14 +7,15 @@ import path from 'path';
 const storage = multer.memoryStorage();
 
 function checkFileType(file, cb) {
-    const filetypes = /jpg|jpeg|png/;
+    // AÑADIMOS 'webp' A LOS TIPOS DE ARCHIVO PERMITIDOS
+    const filetypes = /jpg|jpeg|png|webp/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
     if (extname && mimetype) {
         return cb(null, true);
     } else {
-        cb('¡Error: Solo se permiten imágenes (jpg, jpeg, png)!');
+        cb('¡Error: Solo se permiten imágenes (jpg, jpeg, png, webp)!');
     }
 }
 

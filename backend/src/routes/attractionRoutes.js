@@ -1,9 +1,15 @@
 // backend/src/routes/attractionRoutes.js
 import express from 'express';
 import {
-  getAllAttractions, createAttraction, getAttractionById,
-  deleteAttraction, updateAttraction, createAttractionReview, 
-  updateAttractionReview, deleteAttractionReview
+  getAllAttractions,
+  createAttraction,
+  getAttractionById,
+  deleteAttraction,
+  updateAttraction,
+  createAttractionReview, 
+  updateAttractionReview,
+  deleteAttractionReview,
+  getAttractionsForHome // <-- ¡NUEVA IMPORTACIÓN!
 } from '../controllers/attractionController.js';
 import { protect, isEntity } from '../middleware/authMiddleware.js';
 
@@ -11,21 +17,25 @@ const router = express.Router();
 
 // --- Rutas de Atracciones ---
 router.route('/')
-  .get(getAllAttractions)
-  .post(protect, isEntity, createAttraction);
+  .get(getAllAttractions)
+  .post(protect, isEntity, createAttraction);
 
 router.route('/:id')
-  .get(getAttractionById)
-  .put(protect, isEntity, updateAttraction)
-  .delete(protect, isEntity, deleteAttraction);
+  .get(getAttractionById)
+  .put(protect, isEntity, updateAttraction)
+  .delete(protect, isEntity, deleteAttraction);
 
 // --- Rutas de Reseñas ---
 router.route('/:id/reviews')
-  .post(protect, createAttractionReview)
-  .put(protect, updateAttractionReview);
+  .post(protect, createAttractionReview)
+  .put(protect, updateAttractionReview);
 
 // --- Ruta para Eliminar una Reseña Específica ---
 router.route('/:id/reviews/:reviewId')
-  .delete(protect, deleteAttractionReview);
+  .delete(protect, deleteAttractionReview);
+
+// **NUEVA RUTA PÚBLICA PARA LA PÁGINA PRINCIPAL**
+// Esta ruta es pública y no requiere autenticación
+router.get('/public/home', getAttractionsForHome); // Definimos la ruta para obtener datos del home
 
 export default router;

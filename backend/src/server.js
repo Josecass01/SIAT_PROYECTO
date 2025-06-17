@@ -4,33 +4,38 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import cors from 'cors';
+import cors from 'cors'; // Ya lo tienes importado, ¡genial!
 import connectDB from './db.js';
-import attractionRoutes from './routes/attractionRoutes.js'; // <-- 1. IMPORTAR RUTAS
-import userRoutes from './routes/userRoutes.js'; // <-- 1. Importar rutas de usuario
+import attractionRoutes from './routes/attractionRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import codeRoutes from './routes/codeRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+
 connectDB();
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+// **MODIFICACIÓN AQUÍ: Configuración de CORS**
+// Permitir solicitudes desde tu frontend React
+app.use(cors({
+    origin: 'http://localhost:5173', // O el puerto donde se ejecuta tu frontend React (común: 3000 o 5173 con Vite)
+    credentials: true // Permite el envío de cookies de autenticación, si las usas
+}));
+
+app.use(express.json()); // Middleware para parsear JSON en las solicitudes
 
 // Ruta de prueba (la podemos dejar o quitar)
 app.get('/', (req, res) => {
-  res.send('¡Hola! El backend de SIAT Cartagena está funcionando.');
+  res.send('¡Hola! El backend de SIAT Cartagena está funcionando.');
 });
 
-// <-- 2. USAR LAS RUTAS -->
-// Le decimos a Express que cualquier ruta que empiece por '/api/attractions'
-// debe ser manejada por nuestro 'attractionRoutes'.
+// Rutas de la API
 app.use('/api/attractions', attractionRoutes);
-app.use('/api/users', userRoutes); // <-- 2. Usar las rutas de usuario
+app.use('/api/users', userRoutes);
 app.use('/api/codes', codeRoutes);
 app.use('/api/upload', uploadRoutes);
 
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

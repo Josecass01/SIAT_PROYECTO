@@ -1,113 +1,126 @@
-// src/pages/Home.jsx
+// Frontend/src/pages/Home.jsx
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
+import axios from '../api/axiosConfig'; 
 import Navbar from "../components/Navbar";
-import Carousel from "../components/Carousel";
+import Carousel from "../components/Carousel"; 
+import AttractionCard from "../components/AttractionCard"; 
+// Si tienes un componente Footer y quieres usarlo, impórtalo aquí:
+// import Footer from "../components/Footer"; 
 
 export default function Home() {
-  const [slides, setSlides] = useState([]);
-  const [attractions, setAttractions] = useState([]);
+    const [suggestedAttractions, setSuggestedAttractions] = useState([]);
+    const [carouselItems, setCarouselItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate(); 
 
-  useEffect(() => {
-    // Simulación de datos
-    setSlides([
-      {
-        id: 1,
-        title: "Castillo San Felipe de Barajas",
-        subtitle: "Historia colonial de Cartagena.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2069&q=80",
-      },
-      {
-        id: 2,
-        title: "Ciudad Amurallada",
-        subtitle: "Patrimonio UNESCO con arquitectura colonial.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1531219432768-9f540ce91ef3?auto=format&fit=crop&w=2070&q=80",
-      },
-      {
-        id: 3,
-        title: "Islas del Rosario",
-        subtitle: "Paraíso marino caribeño.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1440688807730-73e4e2169fb5?auto=format&fit=crop&w=2070&q=80",
-      },
-    ]);
+    useEffect(() => {
+        const fetchHomeData = async () => {
+            try {
+                const response = await axios.get('/attractions/public/home'); 
+                
+                setSuggestedAttractions(response.data.suggestedAttractions);
+                setCarouselItems(response.data.carouselItems); 
 
-    setAttractions([
-      {
-        id: "1",
-        name: "Castillo San Felipe de Barajas",
-        category: "Histórico",
-        description:
-          "La mayor fortaleza construida por los españoles en sus antiguas colonias, ubicada en la colina de San Lázaro para defenderse.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80",
-      },
-      {
-        id: "2",
-        name: "Walled City of Cartagena",
-        category: "UNESCO Site",
-        description:
-          "La histórica ciudad amurallada de Cartagena es Patrimonio de la Humanidad por la UNESCO, repleta de calles coloridas.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1581833971358-9f540ce91ef3?auto=format&fit=crop&w=500&q=80",
-      },
-      {
-        id: "3",
-        name: "Getsemaní",
-        category: "Cultural",
-        description:
-          "Una vez barrio obrero, Getsemaní se ha convertido en un vibrante centro cultural con arte urbano y restaurantes locales.",
-        imageUrl:
-          "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500&q=80",
-      },
-    ]);
-  }, []);
+            } catch (err) {
+                setError('Error al cargar los datos de la página principal. Por favor, asegúrate de que el backend esté funcionando correctamente y accesible.');
+                console.error('Error al intentar obtener datos del home:', err);
+                if (err.response) {
+                    console.error('Datos de error del servidor:', err.response.data);
+                    console.error('Estado del error del servidor:', err.response.status);
+                    console.error('Encabezados del error del servidor:', err.response.headers);
+                } else if (err.request) {
+                    console.error('No se recibió respuesta del servidor. Posiblemente CORS o backend caído.');
+                } else {
+                    console.error('Error en la configuración de la solicitud:', err.message);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  return (
-    <div className="min-h-screen bg-blue-50">
-      <Navbar />
+        fetchHomeData();
+    }, []); 
 
-      {/* Carrusel */}
-      <section className="py-8">
-        <div className="max-w-5xl mx-auto px-4">
-          <Carousel slides={slides} />
+    const handleAttractionClick = (id) => {
+        navigate(`/place/${id}`); 
+    };
+
+    if (loading) {
+        return (
+            <div className="flex flex-col min-h-screen items-center justify-center bg-blue-50">
+                <p className="text-xl text-blue-700">Cargando atractivos turísticos...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex flex-col min-h-screen items-center justify-center bg-blue-50"> 
+                <p className="text-xl text-red-700">{error}</p>
+                <p className="text-lg text-red-600 mt-4 font-semibold">
+                    Pasos a seguir para depurar:
+                </p>
+                <ul className="list-disc list-inside text-gray-700 text-base mt-2">
+                    <li>Abre la consola de tu navegador (F12) en la pestaña "Console" y "Network".</li>
+                    <li>Busca las solicitudes a 'http://localhost:4000/api/attractions/public/home'.</li>
+                    <li>Revisa el código de estado (debe ser 200) y cualquier mensaje de error que aparezca.</li>
+                    <li>Asegúrate de que tu **backend esté corriendo en el puerto 4000** y sin errores en su terminal.</li>
+                    <li>Confirma que en `backend/src/server.js`, la configuración de CORS permite el origen de tu frontend (ej. `http://localhost:5173` o `http://localhost:3000`).</li>
+                </ul>
+            </div>
+        );
+    }
+
+    return (
+        // Contenedor principal de la aplicación. No le asignamos color de fondo aquí.
+        // El fondo lo manejará el `main` y la `Navbar`.
+        <div className="min-h-screen flex flex-col">
+            {/* Navbar - Con su propio fondo blanco y sombra */}
+            <Navbar />
+
+            {/* Línea divisoria directamente después del Navbar */}
+            <div className="border-b border-gray-200 my-0" /> {/* Ajustado a my-0 para que la línea esté pegada debajo del Navbar */}
+
+            {/* Contenido principal de la página con el fondo azul claro */}
+            {/* Ahora este div contendrá el carrusel y los atractivos, y tendrá el fondo azul claro */}
+            <main className="flex-grow bg-blue-50 py-8"> {/* Agregamos un padding superior/inferior al main para el contenido */}
+                
+                {/* Sección del Carrusel - sin fondo blanco adicional, para que use el bg-blue-50 del 'main' */}
+                {/* Y ya no necesita la sombra porque no queremos que "flote" como una tarjeta separada aquí. */}
+                <section className="mb-8"> {/* Eliminamos bg-white y shadow-md. Mantenemos mb-8 para separación de la siguiente sección */}
+                    <div className="max-w-5xl mx-auto px-4">
+                        {carouselItems.length > 0 ? (
+                            <Carousel items={carouselItems} onItemClick={handleAttractionClick} />
+                        ) : (
+                            <div className="h-64 bg-gray-200 flex items-center justify-center text-gray-500 rounded-lg">
+                                No hay imágenes disponibles para el carrusel.
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                {/* Atractivos Sugeridos - Sigue dentro del 'main' con bg-blue-50 */}
+                <section className="max-w-5xl mx-auto px-4 py-2"> {/* Mantuve py-2 aquí para un padding más pequeño interno */}
+                    <h2 className="text-4xl font-extrabold text-center text-blue-800 mb-10">
+                        Atractivos Sugeridos
+                    </h2>
+                    {suggestedAttractions.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                            {suggestedAttractions.map((attraction) => (
+                                <AttractionCard key={attraction._id} attraction={attraction} onClick={handleAttractionClick} /> 
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-center text-gray-500 text-lg">No hay atractivos sugeridos para mostrar en este momento.</p>
+                    )}
+                </section>
+
+                {/* Footer si lo deseas */}
+                {/* <Footer /> */}
+            </main>
         </div>
-      </section>
-
-      {/* Atractivos Destacados */}
-      <section className="py-8">
-        <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            Atractivos Destacados
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {attractions.map((attr) => (
-              <Link
-                to={`/place/${attr.id}`}
-                key={attr.id}
-                className="block bg-white rounded-lg shadow hover:shadow-lg transition"
-              >
-                <img
-                  src={attr.imageUrl}
-                  alt={attr.name}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
-                <div className="p-4">
-                  <h3 className="text-lg font-medium text-gray-800">
-                    {attr.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {attr.category}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+    );
 }

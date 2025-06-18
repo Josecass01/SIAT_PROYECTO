@@ -8,15 +8,16 @@ import AttractionCard from "../components/AttractionCard";
 import api from "../api/axiosConfig.js";
 
 export default function Places() {
-  const [allAttractions, setAllAttractions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filteredAttractions, setFilteredAttractions] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [sortOption, setSortOption] = useState("highest");
-
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+  const [allAttractions, setAllAttractions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filteredAttractions, setFilteredAttractions] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [sortOption, setSortOption] = useState("highest");
+  
+  const navigate = useNavigate();
+  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
 
   const categories = ["All", "Histórico", "Cultural", "Natural", "UNESCO Site", "Religioso"];
 

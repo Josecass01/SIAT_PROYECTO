@@ -46,14 +46,80 @@ export default function Register() {
           <form className="px-6 py-8" onSubmit={handleSubmit}>
             {error && <div className="p-3 mb-4 bg-red-100 text-red-700 rounded-md text-center">{error}</div>}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div><label>First Name <span className="text-red-500">*</span></label><input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="block w-full rounded-md border-gray-300"/></div>
-              <div><label>Last Name <span className="text-red-500">*</span></label><input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="block w-full rounded-md border-gray-300"/></div>
+              <div>
+                <label>First Name <span className="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  className="block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+                />
+              </div>
+              <div>
+                <label>Last Name <span className="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  className="block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+                />
+              </div>
             </div>
-            <div className="mt-4"><label>Email <span className="text-red-500">*</span></label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="block w-full rounded-md border-gray-300"/></div>
-            <div className="mt-4"><label>Password <span className="text-red-500">*</span></label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="block w-full rounded-md border-gray-300"/></div>
-            <div className="mt-4"><label>Confirm Password <span className="text-red-500">*</span></label><input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="block w-full rounded-md border-gray-300"/></div>
-            <div className="mt-4"><label htmlFor="invitationCode" className="block text-sm font-medium text-gray-700">Código de Invitación (Opcional)</label><div className="mt-1"><input type="text" name="invitationCode" id="invitationCode" placeholder="Ingresa el código si eres una Entidad" value={invitationCode} onChange={(e) => setInvitationCode(e.target.value)} className="block w-full rounded-md border-gray-300"/></div></div>
-            <div className="mt-6"><button type="submit" disabled={loading} className="w-full flex justify-center py-2 px-4 rounded-md text-white bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400">{loading ? 'Creando cuenta...' : 'Create Account'}</button></div>
+            <div className="mt-4">
+              <label>Email <span className="text-red-500">*</span></label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+              />
+            </div>
+            <div className="mt-4">
+              <label>Password <span className="text-red-500">*</span></label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+              />
+            </div>
+            <div className="mt-4">
+              <label>Confirm Password <span className="text-red-500">*</span></label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="invitationCode" className="block text-sm font-medium text-gray-700">Código de Invitación (Opcional)</label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  name="invitationCode"
+                  id="invitationCode"
+                  placeholder="Ingresa el código si eres una Entidad"
+                  value={invitationCode}
+                  onChange={(e) => setInvitationCode(e.target.value)}
+                  className="block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+                />
+              </div>
+            </div>
+            <div className="mt-6">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex justify-center py-2 px-4 rounded-md text-white bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400"
+              >
+                {loading ? 'Creando cuenta...' : 'Create Account'}
+              </button>
+            </div>
           </form>
         </div>
       </div>

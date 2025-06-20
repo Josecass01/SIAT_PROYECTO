@@ -13,14 +13,15 @@ export default function AttractionCard({ attraction, onClick }) {
     }
   };
 
-  return (
-    <div
+  return (    <div
       // MODIFICADO: Añadimos clases de ancho fijo y altura mínima
       // w-[300px] establece un ancho fijo de 300px.
       // h-full asegura que la tarjeta ocupe toda la altura disponible en su contenedor.
       // flex-shrink-0 previene que la tarjeta se encoja si no hay espacio.
       // min-h-[400px] asegura una altura mínima si el contenido es escaso.
-      className="relative bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer flex flex-col w-[300px] h-full flex-shrink-0 min-h-[400px]"
+      // hover:scale-105 hace que la tarjeta se agrande ligeramente al pasar el cursor
+      // transform y transition-transform para una animación suave
+      className="relative bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out cursor-pointer flex flex-col w-[300px] h-full flex-shrink-0 min-h-[400px]"
       onClick={handleCardClick}
     >
       {/* Badge de calificación */}

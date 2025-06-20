@@ -47,11 +47,11 @@ export default function AttractionDetail() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [reviewLoading, setReviewLoading] = useState(false);
-  const [reviewError, setReviewError] = useState(null);
-  const [editingReviewId, setEditingReviewId] = useState(null);
-  const [editRating, setEditRating] = useState(0);
-  const [editComment, setEditComment] = useState('');
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+  const [reviewError, setReviewError] = useState(null);  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [editRating, setEditRating] = useState(0);
+  const [editComment, setEditComment] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
   
 
   const fetchAttraction = async () => { try { setLoading(true); const { data } = await api.get(`/attractions/${id}`); setAttraction(data); setError(null); } catch (err) { setError("No se pudo encontrar la atracción."); console.error("Error fetching attraction details:", err); } finally { setLoading(false); } };
@@ -113,10 +113,15 @@ export default function AttractionDetail() {
             )}
           </div>
           <h1 className="text-4xl font-bold text-gray-800 mt-0">{attraction.nombre}</h1>
-          <div className="flex items-center gap-2 mt-2"><Rating value={attraction.rating} /><span className="text-gray-600">({attraction.numReviews} reseñas)</span></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+          <div className="flex items-center gap-2 mt-2"><Rating value={attraction.rating} /><span className="text-gray-600">({attraction.numReviews} reseñas)</span></div>          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                 {attraction.galeria?.map((url, idx) => (
-                    <img key={idx} src={url} alt={`${attraction.nombre} ${idx + 1}`} className="w-full h-64 object-cover rounded-lg shadow-md" />
+                    <img 
+                        key={idx} 
+                        src={url} 
+                        alt={`${attraction.nombre} ${idx + 1}`} 
+                        className="w-full h-64 object-cover rounded-lg shadow-md cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out" 
+                        onClick={() => setSelectedImage(url)}
+                    />
                 ))}
             </div>
         </div>
@@ -257,11 +262,33 @@ export default function AttractionDetail() {
                     <p>Calificación Total Entidad:</p>
                     {/* Muestra el valor entero */}
                     <p className="text-3xl mt-1">{finalEntityTotal} / 100</p> 
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                </div>          </div>
+        </div>
+      </div>
+
+      {/* Modal para imagen ampliada */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-4xl max-h-full">
+            <img 
+              src={selectedImage} 
+              alt="Imagen ampliada" 
+              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 text-white bg-black bg-opacity-50 hover:bg-opacity-75 rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold transition-all duration-200"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
       </div>
     </div>
   );

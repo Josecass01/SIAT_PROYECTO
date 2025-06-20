@@ -149,9 +149,7 @@ export default function PendingAttractions() {
                         <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
                           Pendiente
                         </span>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      </div>                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                           <p className="text-sm text-gray-500">Creado por:</p>
                           <p className="font-medium">{attraction.user?.name || 'Usuario desconocido'}</p>
@@ -163,12 +161,24 @@ export default function PendingAttractions() {
                           </p>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-500">Ubicación:</p>
-                          <p className="font-medium">{attraction.ubicacion_texto || 'No especificada'}</p>
+                          <p className="text-sm text-gray-500">Departamento:</p>
+                          <p className="font-medium">{attraction.departamento || 'No especificado'}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-500">Contacto:</p>
-                          <p className="font-medium">{attraction.contacto || 'No especificado'}</p>
+                          <p className="text-sm text-gray-500">Municipio:</p>
+                          <p className="font-medium">{attraction.municipio || 'No especificado'}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Administrador/Propietario:</p>
+                          <p className="font-medium">{attraction.administrador_propietario || 'No especificado'}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Código Asignado:</p>
+                          <p className="font-medium">{attraction.codigo_asignado || 'No especificado'}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Ubicación:</p>
+                          <p className="font-medium">{attraction.ubicacion_texto || 'No especificada'}</p>
                         </div>
                       </div>
 

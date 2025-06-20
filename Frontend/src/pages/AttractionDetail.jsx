@@ -130,16 +130,17 @@ export default function AttractionDetail() {
         {/* Estructura de 2 Columnas para Detalles/Ubicación/Reseñas (izquierda) y Mapa/Calificación Entidad (derecha) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8"> {/* Grilla de 3 columnas para proporciones 2/3 y 1/3 */}
           {/* Columna Izquierda: Detalles y Reseñas. Ocupa 2/3 en pantallas grandes */}
-          <div className="lg:col-span-2 space-y-6"> {/* lg:col-span-2 para un ancho mayor */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Detalles y Ubicación</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div><h4 className="font-semibold text-gray-600">Tipo</h4><p>{attraction.categoria}</p></div>
-                <div><h4 className="font-semibold text-gray-600">Horario</h4><p>{attraction.horario || 'No especificado'}</p></div>
-                <div className="sm:col-span-2"><h4 className="font-semibold text-gray-600">Dirección</h4><p>{attraction.ubicacion_texto || 'No especificada'}</p></div>
-                <div><h4 className="font-semibold text-gray-600">Contacto</h4><p>{attraction.contacto || 'No especificado'}</p></div>
-              </div>
-            </div>
+          <div className="lg:col-span-2 space-y-6"> {/* lg:col-span-2 para un ancho mayor */}            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Detalles y Ubicación</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div><h4 className="font-semibold text-gray-600">Tipo</h4><p>{attraction.categoria}</p></div>
+                <div><h4 className="font-semibold text-gray-600">Departamento</h4><p>{attraction.departamento || 'No especificado'}</p></div>
+                <div><h4 className="font-semibold text-gray-600">Municipio</h4><p>{attraction.municipio || 'No especificado'}</p></div>
+                <div><h4 className="font-semibold text-gray-600">Código Asignado</h4><p>{attraction.codigo_asignado || 'No especificado'}</p></div>
+                <div className="sm:col-span-2"><h4 className="font-semibold text-gray-600">Dirección</h4><p>{attraction.ubicacion_texto || 'No especificada'}</p></div>
+                <div className="sm:col-span-2"><h4 className="font-semibold text-gray-600">Administrador/Propietario</h4><p>{attraction.administrador_propietario || 'No especificado'}</p></div>
+              </div>
+            </div>
 
             {/* Reseñas de Usuarios - MANTENIDO AQUÍ, debajo de Detalles y Ubicación, en la misma columna izquierda */}
             <div className="bg-white rounded-lg shadow p-6">

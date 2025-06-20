@@ -28,13 +28,37 @@ const getAttractionById = asyncHandler(async (req, res) => {
 });
 
 const createAttraction = asyncHandler(async (req, res) => {
-  try {
-    const { nombre, descripcion, categoria, horario, ubicacion_texto, contacto, coordenadas, calificacion_entidad, significado_entidad, galeria } = req.body;
-    const newAttraction = new Attraction({
-      nombre, descripcion, categoria, horario, ubicacion_texto, contacto, 
-      coordenadas, calificacion_entidad, significado_entidad, galeria,
-      user: req.user._id // MUY IMPORTANTE: Asociamos la atracción con el usuario que la crea
-    });
+  try {
+    const { 
+      nombre, 
+      descripcion, 
+      categoria, 
+      departamento,
+      municipio,
+      administrador_propietario,
+      codigo_asignado,
+      ubicacion_texto, 
+      coordenadas, 
+      calificacion_entidad, 
+      significado_entidad, 
+      galeria 
+    } = req.body;
+    
+    const newAttraction = new Attraction({
+      nombre, 
+      descripcion, 
+      categoria, 
+      departamento,
+      municipio,
+      administrador_propietario,
+      codigo_asignado,
+      ubicacion_texto, 
+      coordenadas, 
+      calificacion_entidad, 
+      significado_entidad, 
+      galeria,
+      user: req.user._id // MUY IMPORTANTE: Asociamos la atracción con el usuario que la crea
+    });
     const createdAttraction = await newAttraction.save();
     res.status(201).json(createdAttraction);
   } catch (error) {
@@ -44,27 +68,41 @@ const createAttraction = asyncHandler(async (req, res) => {
 });
 
 const updateAttraction = asyncHandler(async (req, res) => {
-  try {
-    const { nombre, descripcion, categoria, horario, ubicacion_texto, contacto, coordenadas, calificacion_entidad, significado_entidad, galeria } = req.body;
-    const attraction = await Attraction.findById(req.params.id);
+  try {
+    const { 
+      nombre, 
+      descripcion, 
+      categoria, 
+      departamento,
+      municipio,
+      administrador_propietario,
+      codigo_asignado,
+      ubicacion_texto, 
+      coordenadas, 
+      calificacion_entidad, 
+      significado_entidad, 
+      galeria 
+    } = req.body;
+    
+    const attraction = await Attraction.findById(req.params.id);
 
     if (attraction) {
       // --- ¡LÓGICA DE PERMISOS MEJORADA! ---
       // Comprueba si el usuario es el dueño de la atracción O si es un SuperAdmin.
       if (attraction.user.toString() !== req.user._id.toString() && !req.user.isSuperAdmin) {
         return res.status(403).json({ message: 'No tienes permiso para editar esta atracción.' });
-      }
-
-      attraction.nombre = nombre;
-      attraction.descripcion = descripcion;
-      attraction.categoria = categoria;
-      attraction.horario = horario;
-      attraction.ubicacion_texto = ubicacion_texto;
-      attraction.contacto = contacto;
-      attraction.coordenadas = coordenadas;
-      attraction.calificacion_entidad = calificacion_entidad;
-      attraction.significado_entidad = significado_entidad;
-      attraction.galeria = galeria;
+      }      attraction.nombre = nombre;
+      attraction.descripcion = descripcion;
+      attraction.categoria = categoria;
+      attraction.departamento = departamento;
+      attraction.municipio = municipio;
+      attraction.administrador_propietario = administrador_propietario;
+      attraction.codigo_asignado = codigo_asignado;
+      attraction.ubicacion_texto = ubicacion_texto;
+      attraction.coordenadas = coordenadas;
+      attraction.calificacion_entidad = calificacion_entidad;
+      attraction.significado_entidad = significado_entidad;
+      attraction.galeria = galeria;
       
       const updatedAttraction = await attraction.save();
       res.json(updatedAttraction);

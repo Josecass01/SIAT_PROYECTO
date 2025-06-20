@@ -22,15 +22,19 @@ const attractionSchema = new mongoose.Schema({
     required: true,
     enum: ["Histórico", "Cultural", "Natural", "UNESCO Site", "Religioso"]
   },
-  
-  // ... (reviews, rating, numReviews no cambian)
+    // ... (reviews, rating, numReviews no cambian)
   reviews: [reviewSchema],
   rating: { type: Number, required: true, default: 0 },
   numReviews: { type: Number, required: true, default: 0 },
   
-  horario: { type: String },
+  // --- NUEVOS CAMPOS SOLICITADOS ---
+  departamento: { type: String, required: true, trim: true },
+  municipio: { type: String, required: true, trim: true },
+  administrador_propietario: { type: String, required: true, trim: true },
+  codigo_asignado: { type: String, required: true, trim: true, unique: true },
+  
+  // --- CAMPOS EXISTENTES ---
   ubicacion_texto: { type: String }, // <-- Este es el campo para la dirección
-  contacto: { type: String },
   galeria: [{ type: String }],
 
   // --- NUEVA ESTRUCTURA PARA LA CALIFICACIÓN DE LA ENTIDAD ---

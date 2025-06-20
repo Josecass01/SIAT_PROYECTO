@@ -124,9 +124,19 @@ export default function MyAttractions() {
                           </p>
                         </div>
                         {getStatusBadge(attraction.estado)}
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      </div>                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                          <p className="text-sm text-gray-500">Departamento:</p>
+                          <p className="font-medium">{attraction.departamento || 'No especificado'}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Municipio:</p>
+                          <p className="font-medium">{attraction.municipio || 'No especificado'}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Código Asignado:</p>
+                          <p className="font-medium">{attraction.codigo_asignado || 'No especificado'}</p>
+                        </div>
                         <div>
                           <p className="text-sm text-gray-500">Fecha de creación:</p>
                           <p className="font-medium">

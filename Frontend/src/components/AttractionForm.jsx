@@ -18,25 +18,27 @@ export default function AttractionForm({ initialData, onSubmit, loading, isEdit 
         nombre: '',
         descripcion: '',
         categoria: 'Histórico',
-        horario: '',
+        departamento: '',
+        municipio: '',
+        administrador_propietario: '',
+        codigo_asignado: '',
         ubicacion_texto: '',
-        contacto: '',
         coordenadas: { lat: 10.4235, lng: -75.5494 },
         calificacion_entidad: { estadoConservacion: 0, constitucionDelBien: 0, representatividadGeneral: 0 },
         significado_entidad: 'Local',
         galeria: [], // El campo de la galería ahora empieza como un array vacío
     });
-    const [uploading, setUploading] = useState(false);
-
-    useEffect(() => {
+    const [uploading, setUploading] = useState(false);    useEffect(() => {
         if (isEdit && initialData) {
             setFormData({
                 nombre: initialData.nombre || '',
                 descripcion: initialData.descripcion || '',
                 categoria: initialData.categoria || 'Histórico',
-                horario: initialData.horario || '',
+                departamento: initialData.departamento || '',
+                municipio: initialData.municipio || '',
+                administrador_propietario: initialData.administrador_propietario || '',
+                codigo_asignado: initialData.codigo_asignado || '',
                 ubicacion_texto: initialData.ubicacion_texto || '',
-                contacto: initialData.contacto || '',
                 coordenadas: initialData.coordenadas || { lat: 10.4235, lng: -75.5494 },
                 calificacion_entidad: initialData.calificacion_entidad || { estadoConservacion: 0, constitucionDelBien: 0, representatividadGeneral: 0 },
                 significado_entidad: initialData.significado_entidad || 'Local',
@@ -117,8 +119,7 @@ export default function AttractionForm({ initialData, onSubmit, loading, isEdit 
                 >
                     {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                 </select>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            </div>            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label>Dirección</label>
                     <input
@@ -126,27 +127,51 @@ export default function AttractionForm({ initialData, onSubmit, loading, isEdit 
                         name="ubicacion_texto"
                         value={formData.ubicacion_texto}
                         onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500"
                     />
                 </div>
                 <div>
-                    <label>Contacto</label>
+                    <label>Departamento</label>
                     <input
                         type="text"
-                        name="contacto"
-                        value={formData.contacto}
+                        name="departamento"
+                        value={formData.departamento}
                         onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500"
+                        required
                     />
                 </div>
                 <div>
-                    <label>Horarios</label>
+                    <label>Municipio</label>
                     <input
                         type="text"
-                        name="horario"
-                        value={formData.horario}
+                        name="municipio"
+                        value={formData.municipio}
                         onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500" // Modificado aquí
+                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500"
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Administrador o Propietario</label>
+                    <input
+                        type="text"
+                        name="administrador_propietario"
+                        value={formData.administrador_propietario}
+                        onChange={handleChange}
+                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500"
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Código Asignado</label>
+                    <input
+                        type="text"
+                        name="codigo_asignado"
+                        value={formData.codigo_asignado}
+                        onChange={handleChange}
+                        className="mt-1 block w-full rounded-md border border-black focus:border-sky-500 focus:ring-sky-500"
+                        required
                     />
                 </div>
             </div>

@@ -21,16 +21,28 @@ export default function Navbar() {
               <svg className="h-6 w-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0-1.657 1.343-3 3-3s3 1.343 3 3-1.343 3-3 3-3-1.343-3-3z M4 19v-5a4 4 0 014-4h2a4 4 0 014 4v5" /></svg>
               <span className="text-xl font-bold text-sky-600">SIAT Cartagena</span>
             </Link>
-          </div>
-
-          <div className="flex space-x-4 items-center">
+          </div>          <div className="flex space-x-4 items-center">
             <Link to="/" className="text-gray-700 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Home</Link>
             <Link to="/places" className="text-gray-700 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Places</Link>
+            
+            {/* Enlaces para Entidades */}
+            {userInfo && (userInfo.isEntity || userInfo.isSuperAdmin) && (
+              <Link to="/my-attractions" className="text-blue-600 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">
+                Mis Atracciones
+              </Link>
+            )}
+            
+            {/* Enlaces para SuperAdmin */}
             {userInfo && userInfo.isSuperAdmin && (
-                         <Link to="/admin" className="text-green-600 hover:text-green-800 px-3 py-2 rounded-md text-sm font-bold">
-                   Admin Panel
-                 </Link>
-                            )}
+              <>
+                <Link to="/pending-attractions" className="text-orange-600 hover:text-orange-800 px-3 py-2 rounded-md text-sm font-medium">
+                  Aprobaciones
+                </Link>
+                <Link to="/admin" className="text-green-600 hover:text-green-800 px-3 py-2 rounded-md text-sm font-bold">
+                  Admin Panel
+                </Link>
+              </>
+            )}
 
             {userInfo ? (
               <>

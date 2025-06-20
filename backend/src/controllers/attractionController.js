@@ -5,10 +5,19 @@ import asyncHandler from 'express-async-handler'; // Asegúrate de que esta depe
 // --- CRUD DE ATRACCIONES ---
 
 const getAllAttractions = asyncHandler(async (req, res) => {
-  try {
-    const attractions = await Attraction.find({}).populate('user', 'name');
-    res.json(attractions);
-  } catch (error) { res.status(500).json({ message: 'Error del servidor' }); }
+  try {
+    let filter = {};
+    
+    // Si el usuario no es SuperAdmin, solo mostrar atracciones aprobadas
+    if (!req.user || !req.user.isSuperAdmin) {
+      filter.estado = "aprobada";
+    }
+    
+    const attractions = await Attraction.find(filter).populate('user', 'name');
+    res.json(attractions);
+  } catch (error) { 
+    res.status(500).json({ message: 'Error del servidor' }); 
+  }
 });
 
 const getAttractionById = asyncHandler(async (req, res) => {
@@ -137,15 +146,16 @@ const deleteAttractionReview = asyncHandler(async (req, res) => {
 const getAttractionsForHome = asyncHandler(async (req, res) => {
     try {
         // Obtener los atractivos con las calificaciones (de usuarios) más altas
-        // Ordenamos por 'rating' de forma descendente y luego por 'numReviews' para desempatar.
-        const suggestedAttractions = await Attraction.find({})
+        // Ordenamos por 'rating' de forma descendente y luego por 'numReviews' para desempatar.        // Solo mostrar atracciones aprobadas
+        const suggestedAttractions = await Attraction.find({ estado: "aprobada" })
             .sort({ rating: -1, numReviews: -1 }) // Ordenar de mayor a menor calificación
             .limit(6); // Obtener los 6 atractivos mejor calificados
 
         // Obtener atractivos para las imágenes del carrusel.
-        // Seleccionamos atractivos que tengan al menos una imagen en su campo 'galeria'.
+        // Seleccionamos atractivos que tengan al menos una imagen en su campo 'galeria' y estén aprobados.
         const carouselAttractions = await Attraction.find({
-            'galeria.0': { $exists: true } // Verifica que el array 'galeria' no esté vacío
+            'galeria.0': { $exists: true }, // Verifica que el array 'galeria' no esté vacío
+            estado: "aprobada" // Solo atracciones aprobadas
         })
             .sort({ createdAt: -1 }) // Ordenar por los más recientes (puedes cambiar a rating: -1 si quieres los mejor calificados en el carrusel)
             .limit(3); // Obtener 3 atractivos para el carrusel
@@ -170,6 +180,85 @@ const getAttractionsForHome = asyncHandler(async (req, res) => {
     }
 });
 
+// --- FUNCIONES PARA SISTEMA DE APROBACIÓN ---
+
+// Obtener atracciones pendientes de aprobación (solo SuperAdmin)
+const getPendingAttractions = asyncHandler(async (req, res) => {
+  try {
+    console.log('getPendingAttractions - Usuario:', req.user?.name, 'isSuperAdmin:', req.user?.isSuperAdmin);
+    
+    const attractions = await Attraction.find({ estado: "pendiente" })
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
+    
+    console.log('Atracciones pendientes encontradas:', attractions.length);
+    res.json(attractions);
+  } catch (error) {
+    console.error('Error en getPendingAttractions:', error);
+    res.status(500).json({ message: 'Error del servidor', error: error.message });
+  }
+});
+
+// Aprobar una atracción (solo SuperAdmin)
+const approveAttraction = asyncHandler(async (req, res) => {
+  try {
+    const attraction = await Attraction.findById(req.params.id);
+    
+    if (!attraction) {
+      return res.status(404).json({ message: 'Atracción no encontrada' });
+    }
+    
+    if (attraction.estado !== "pendiente") {
+      return res.status(400).json({ message: 'Esta atracción ya ha sido procesada' });
+    }
+    
+    attraction.estado = "aprobada";
+    attraction.fechaAprobacion = new Date();
+    attraction.aprobadaPor = req.user._id;
+    
+    const updatedAttraction = await attraction.save();
+    res.json(updatedAttraction);
+  } catch (error) {
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
+// Rechazar una atracción (solo SuperAdmin)
+const rejectAttraction = asyncHandler(async (req, res) => {
+  try {
+    const { motivo } = req.body;
+    const attraction = await Attraction.findById(req.params.id);
+    
+    if (!attraction) {
+      return res.status(404).json({ message: 'Atracción no encontrada' });
+    }
+    
+    if (attraction.estado !== "pendiente") {
+      return res.status(400).json({ message: 'Esta atracción ya ha sido procesada' });
+    }
+    
+    attraction.estado = "rechazada";
+    attraction.motivoRechazo = motivo || "No especificado";
+    attraction.aprobadaPor = req.user._id;
+    
+    const updatedAttraction = await attraction.save();
+    res.json(updatedAttraction);
+  } catch (error) {
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
+// Obtener atracciones del usuario actual (incluyendo pendientes y rechazadas)
+const getMyAttractions = asyncHandler(async (req, res) => {
+  try {
+    const attractions = await Attraction.find({ user: req.user._id })
+      .sort({ createdAt: -1 });
+    res.json(attractions);
+  } catch (error) {
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});
+
 
 export {
     getAllAttractions,
@@ -180,5 +269,10 @@ export {
     createAttractionReview,
     updateAttractionReview,
     deleteAttractionReview,
-    getAttractionsForHome // <-- ¡Asegúrate de exportar la nueva función aquí!
+    getAttractionsForHome,
+    // Nuevas funciones de aprobación
+    getPendingAttractions,
+    approveAttraction,
+    rejectAttraction,
+    getMyAttractions
 };

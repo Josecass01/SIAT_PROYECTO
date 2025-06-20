@@ -49,10 +49,26 @@ const attractionSchema = new mongoose.Schema({
   coordenadas: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
-  },
-  user: {
+  },  user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+  },
+  
+  // --- SISTEMA DE APROBACIÓN ---
+  estado: {
+    type: String,
+    enum: ["pendiente", "aprobada", "rechazada"],
+    default: "pendiente"
+  },
+  fechaAprobacion: {
+    type: Date
+  },
+  aprobadaPor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  motivoRechazo: {
+    type: String
   }
 }, {
   timestamps: true

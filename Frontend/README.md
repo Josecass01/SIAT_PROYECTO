@@ -50,4 +50,4 @@ Este proyecto es propiedad exclusiva de sus autores originales. Ver [../LICENSE.
 
 ---
 
-*Proyecto académico desarrollado en Universidad Tecnológica de Bolívar - 2025*
+*Proyecto académico desarrollado en la Universidad de cartagena  - 2025*

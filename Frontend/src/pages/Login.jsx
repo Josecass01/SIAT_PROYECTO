@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import CopyrightFooter from "../components/CopyrightFooter";
 import api from '../api/axiosConfig.js';
 
 export default function Login() {
@@ -60,8 +61,7 @@ export default function Login() {
             <div className="mt-6">
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border-transparent rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400"
+                disabled={loading}                className="w-full flex justify-center py-2 px-4 border-transparent rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400"
               >
                 {loading ? 'Iniciando sesión...' : 'Log In'}
               </button>
@@ -69,6 +69,7 @@ export default function Login() {
           </form>
         </div>
       </div>
+      <CopyrightFooter />
     </div>
   );
 }

@@ -1,8 +1,11 @@
 {
-  "name": "siat-v001",
+  "name": "siat-tourism-platform-frontend",
+  "description": "Frontend del Sistema Integral de Atracciones Turísticas (SIAT) para Cartagena",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "author": "Jose Luis Castellanos Guardia, Ronald Roman Valdes y Evaristo Feria Perez <Josecastellanos274@gmail.com>",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -1,3 +1,12 @@
+/*
+ * SIAT Tourism Platform - Backend Server
+ * Copyright (c) 2025 Jose Luis Castellanos Guardia, Ronald Roman Valdes y Evaristo Feria Perez
+ * Todos los derechos reservados.
+ * 
+ * Servidor Express.js para API REST del sistema de turismo
+ * Desarrollado como proyecto académico - Uso no autorizado prohibido
+ */
+
 // backend/src/server.js
 
 import dotenv from 'dotenv';

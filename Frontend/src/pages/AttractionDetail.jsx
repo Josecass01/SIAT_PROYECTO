@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import api from '../api/axiosConfig.js';
 import Navbar from "../components/Navbar";
+import CopyrightFooter from "../components/CopyrightFooter";
 
 // Componente auxiliar para mostrar estrellas (sin cambios en este)
 const Rating = ({ value, onClick, isInteractive = false }) => {
@@ -285,11 +286,11 @@ export default function AttractionDetail() {
             >
               ×
             </button>
-          </div>
-        </div>
+          </div>        </div>
       )}
     </div>
-      </div>
-    </div>
-  );
+      </div>
+      <CopyrightFooter />
+    </div>
+  );
 }

@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import FilterBar from "../components/FilterBar";
 import SortDropdown from "../components/SortDropdown";
 import AttractionCard from "../components/AttractionCard";
+import CopyrightFooter from "../components/CopyrightFooter";
 import api from "../api/axiosConfig.js";
 
 export default function Places() {
@@ -110,15 +111,11 @@ export default function Places() {
         </div>
       </div>
 
-      <div className="border-b border-gray-200 my-6 mx-4 lg:mx-8" />
+      <div className="border-b border-gray-200 my-6 mx-4 lg:mx-8" />      <div className="flex-grow max-w-6xl mx-auto px-4 lg:px-8 py-2">
+        {renderContent()}
+      </div>
 
-      <div className="flex-grow max-w-6xl mx-auto px-4 lg:px-8 py-2">
-        {renderContent()}
-      </div>
-
-      <footer className="bg-white py-4 text-center text-gray-500 text-sm">
-        © 2025 SIAT Cartagena. All rights reserved.
-      </footer>
-    </div>
-  );
+      <CopyrightFooter />
+    </div>
+  );
 }

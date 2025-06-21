@@ -1,12 +1,53 @@
-# React + Vite
+# SIAT Tourism Platform - Frontend 🎨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Copyright © 2025 Jose Luis Castellanos Guardia y Ronald Roman Valdes. Todos los derechos reservados.**
 
-Currently, two official plugins are available:
+## 📱 Frontend de SIAT Tourism Platform
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Aplicación React moderna para la gestión de atracciones turísticas de Cartagena.
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologías
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React 18** - Biblioteca de interfaz de usuario
+- **Vite** - Herramienta de construcción rápida
+- **Tailwind CSS** - Framework de estilos utilitarios
+- **React Router DOM** - Enrutamiento del lado del cliente
+- **Axios** - Cliente HTTP para API calls
+
+## 🚀 Instalación
+
+```bash
+# Instalar dependencias
+npm install
+
+# Ejecutar en modo desarrollo
+npm run dev
+
+# Construir para producción
+npm run build
+```
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── components/     # Componentes reutilizables
+├── pages/         # Páginas principales
+├── api/           # Configuración de APIs
+├── assets/        # Recursos estáticos
+└── utils/         # Utilidades y helpers
+```
+
+## 👥 Autores
+
+- **Jose Luis Castellanos Guardia** - Desarrollador Principal & Backend
+- **Ronald Roman Valdes** - Desarrollador Frontend
+- **Jose Luis Castellanos Guardia & Ronald Roman Valdes** - Diseño UX/UI
+
+## 📄 Licencia
+
+Este proyecto es propiedad exclusiva de sus autores originales. Ver [../LICENSE.md](../LICENSE.md) para más detalles.
+
+---
+
+*Proyecto académico desarrollado en Universidad Tecnológica de Bolívar - 2025*

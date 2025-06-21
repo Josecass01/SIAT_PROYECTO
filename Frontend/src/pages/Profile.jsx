@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import CopyrightFooter from "../components/CopyrightFooter";
 
 export default function Profile() {
   // Aquí deberías obtener los datos del usuario actual desde tu contexto o llamada a API
@@ -25,13 +26,13 @@ export default function Profile() {
           </h1>
           <p className="text-gray-300 mb-6">{user.email}</p>
           <button
-            onClick={() => console.log("Editar perfil")}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md transition text-white"
+            onClick={() => console.log("Editar perfil")}            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md transition text-white"
           >
             Editar Perfil
           </button>
         </div>
       </main>
+      <CopyrightFooter />
     </div>
   );
 }

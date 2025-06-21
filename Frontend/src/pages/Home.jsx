@@ -6,6 +6,7 @@ import axios from '../api/axiosConfig'; // Asegúrate de que esta ruta sea corre
 import Navbar from "../components/Navbar";
 import Carousel from "../components/Carousel";
 import AttractionCard from "../components/AttractionCard";
+import CopyrightFooter from "../components/CopyrightFooter";
 // Si tienes un componente Footer y quieres usarlo, impórtalo aquí:
 // import Footer from "../components/Footer";
 
@@ -125,11 +126,10 @@ export default function Home() {
             </div>
           ) : (
             <p className="text-center text-gray-500 text-lg">No hay atractivos sugeridos para mostrar en este momento.</p>
-          )}
-        </section>
+          )}        </section>
 
-        {/* Footer si lo deseas */}
-        {/* <Footer /> */}
+        {/* Footer con información de copyright */}
+        <CopyrightFooter />
       </main>
     </div>
   );

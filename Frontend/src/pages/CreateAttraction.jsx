@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import api from '../api/axiosConfig';
 import Navbar from '../components/Navbar';
 import AttractionForm from '../components/AttractionForm';
+import CopyrightFooter from '../components/CopyrightFooter';
 
 export default function CreateAttraction() {
     const navigate = useNavigate();
@@ -20,12 +21,12 @@ export default function CreateAttraction() {
         } catch (err) {
             setLoading(false);
             setError('No se pudo crear la atracción. Revisa los datos.');
-            toast.error('Error al crear la atracción');
-            console.error(err);
+            toast.error('Error al crear la atracción');            console.error(err);
         }
     };
 
-    return (        <div className="min-h-screen bg-gray-100">
+    return (
+        <div className="min-h-screen bg-gray-100">
             <Navbar />
             <div className="max-w-4xl mx-auto p-8 mt-10 bg-white rounded-lg shadow">
                 <h1 className="text-2xl font-bold mb-4">Crear Nuevo Atractivo Turístico</h1>
@@ -53,6 +54,7 @@ export default function CreateAttraction() {
                     loading={loading} 
                 />
             </div>
+            <CopyrightFooter />
         </div>
     );
 }

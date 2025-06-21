@@ -1,3 +1,12 @@
+/*
+ * SIAT Tourism Platform - Frontend Application
+ * Copyright (c) 2025 Jose Luis Castellanos Guardia, Ronald Roman Valdes y Evaristo Feria Perez
+ * Todos los derechos reservados.
+ * 
+ * Aplicación React para gestión de turismo en Cartagena
+ * Desarrollado como proyecto académico - Uso no autorizado prohibido
+ */
+
 // Frontend/src/App.jsx
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";

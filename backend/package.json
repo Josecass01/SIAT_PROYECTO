@@ -1,15 +1,22 @@
 {
   "type": "module",
-  "name": "backend",
+  "name": "siat-tourism-platform-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Backend del Sistema Integral de Atracciones Turísticas (SIAT) para Cartagena",
+  "main": "src/server.js",
+  "private": true,
+  "author": "Jose Luis Castellanos Guardia, Ronald Roman Valdes y Evaristo Feria Perez <Josecastellanos274@gmail.com>",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "nodemon src/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "tourism",
+    "cartagena", 
+    "attractions",
+    "academic-project",
+    "proprietary"
+  ],
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.1",

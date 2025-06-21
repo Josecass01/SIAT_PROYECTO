@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import CopyrightFooter from "../components/CopyrightFooter";
 import api from '../api/axiosConfig.js';
 
 export default function Register() {
@@ -115,14 +116,14 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-2 px-4 rounded-md text-white bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400"
-              >
+                className="w-full flex justify-center py-2 px-4 rounded-md text-white bg-sky-500 hover:bg-sky-600 disabled:bg-sky-400"              >
                 {loading ? 'Creando cuenta...' : 'Create Account'}
               </button>
             </div>
           </form>
         </div>
       </div>
+      <CopyrightFooter />
     </div>
   );
 }
